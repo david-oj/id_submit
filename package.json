@@ -16,6 +16,8 @@
     "class-variance-authority": "^0.7.1",
     "cloudinary": "^2.7.0",
     "clsx": "^2.1.1",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
     "formidable": "^3.5.4",
     "formidable-serverless": "^1.1.1",
     "lucide-react": "^0.503.0",
