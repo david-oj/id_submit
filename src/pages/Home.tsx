@@ -63,21 +63,21 @@ const Home = () => {
       <div className="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen">
         <div className="max-w-4xl mx-auto md:py-12 py-4 md:px-8 px-4">
           <div className="flex flex-col text-center items-center">
-            <div className="primary flex justify-center items-center md:size-20 size-16 rounded-full mb-6 shadow-lg">
+            <div className="bg-primary flex justify-center items-center md:size-20 size-16 rounded-full mb-6 shadow-lg">
               <MdOutlineBadge className="text-white text-3xl " />
             </div>
             <h1 className="text-3xl md:text-5xl font-bold text-gray-800 mb-4">
               ID Verification Portal
             </h1>
             <p className="md:text-xl text-gray-600 max-w-2xl mx-auto">
-              Securely submit your identification documents for verification.
+              Securely submit your identification documents.
               Upload clear images or PDF files of both sides of your ID.
             </p>
           </div>
 
-          <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 mt-12">
-            <div className="flex items-center gap-4 size-8 ">
-              <MdUploadFile className="text-2xl" />
+          <div className="bg-white rounded-3xl shadow-2xl max-sm:py-8 p-4 sm:p-8 md:p-12 mt-12">
+            <div className="flex items-center gap-4 ">
+              <MdUploadFile className="text-2xl text-primary" />
               <h3 className="text-2xl font-semibold text-gray-800">
                 Document Upload
               </h3>
@@ -85,17 +85,19 @@ const Home = () => {
             <form
               onSubmit={onSubmit}
               encType="multipart/form-data"
-              className="space-y-8"
+              className="space-y-4 sm:space-y-8"
             >
-              <div className="flex mt-10 gap-4 md:gap-8 max-md:flex-col p-4 ">
+              <div className="flex mt-6 sm:mt-10 gap-4 md:gap-8 max-md:flex-col p-4 ">
                 {/* Front Side */}
                 <div className="flex-1">
-                  <label htmlFor="">ID Front Side</label>
+                  <label htmlFor="id_front">ID Front Side</label>
                   <div
                     onClick={(e) => {
                       e.currentTarget.querySelector("input")?.click();
                     }}
-                    className={` bg-gray-50 ${frontFile ? "border-green-400" : ""} flex flex-col justify-center items-center gap-8 border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-primary-400 hover:bg-primary-50 transition-all duration-200 cursor-pointer group`}
+                    className={`${
+                      frontFile ? "border-green-400" : ""
+                    } flex flex-col justify-center items-center sm:gap-4 gap-2 border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-primary-400 hover:bg-primary/5 transition-all duration-200 cursor-pointer group`}
                   >
                     <input
                       type="file"
@@ -110,7 +112,7 @@ const Home = () => {
 
                     {frontFile ? (
                       frontFile.type.startsWith("image/") ? (
-                         <div className="h-[136px] overflow-hidden">
+                        <div className="h-[144px] overflow-hidden">
                           <img
                             src={URL.createObjectURL(frontFile)}
                             alt="Front preview"
@@ -124,7 +126,9 @@ const Home = () => {
                       )
                     ) : (
                       <>
-                        <MdOutlineCloudUpload className="text-2xl" />
+                        <div className="size-16 rounded-full bg-primary/10 flex items-center justify-center-safe">
+                          <MdOutlineCloudUpload className="text-2xl text-primary" />
+                        </div>
                         <p className="text-lg font-medium text-gray-700">
                           Drop files here or click upload
                         </p>
@@ -137,12 +141,14 @@ const Home = () => {
                 </div>
                 {/* Back Side */}
                 <div className="flex-1">
-                  <label htmlFor="">ID Back Side</label>
+                  <label htmlFor="id_back">ID Back Side</label>
                   <div
                     onClick={(e) => {
                       e.currentTarget.querySelector("input")?.click();
                     }}
-                    className={`bg-gray-50 ${backFile ? "border-green-400" : ""} flex flex-col justify-center items-center gap-8 border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-primary-400 hover:bg-primary-50 transition-all duration-200 cursor-pointer group`}
+                    className={`${
+                      backFile ? "border-green-400" : ""
+                    } flex flex-col justify-center items-center sm:gap-4 gap-2 border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-primary-400 hover:bg-primary/5 transition-all duration-200 cursor-pointer group`}
                   >
                     <input
                       type="file"
@@ -168,7 +174,9 @@ const Home = () => {
                       )
                     ) : (
                       <>
-                        <MdOutlineCloudUpload className="text-2xl" />
+                        <div className="size-16 rounded-full bg-primary/10 flex items-center justify-center-safe">
+                          <MdOutlineCloudUpload className="text-2xl text-primary" />
+                        </div>
                         <p className="text-lg font-medium text-gray-700">
                           Drop files here or click upload
                         </p>
@@ -180,7 +188,7 @@ const Home = () => {
                   </div>
                 </div>
               </div>
-              <div className="bg-amber-50 border border-amber-200 rounded-xl p-6">
+              <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 sm:p-6">
                 <div className="flex items-start space-x-3">
                   <span className="material-symbols-outlined text-amber-600 mt-0.5">
                     info
@@ -190,10 +198,10 @@ const Home = () => {
                       Important Guidelines
                     </h4>
                     <ul className="text-sm text-amber-700 space-y-1">
-                      <li>Ensure your ID is clearly visible and not blurry</li>
-                      <li>All text and details must be readable</li>
-                      <li>Do not cover any part of the document</li>
-                      <li>Files should be under 10MB in size</li>
+                      <li>• Ensure your ID is clearly visible and not blurry</li>
+                      <li>• All text and details must be readable</li>
+                      <li>• Do not cover any part of the document</li>
+                      <li>• Files should be under 10MB in size</li>
                     </ul>
                   </div>
                 </div>
@@ -205,24 +213,35 @@ const Home = () => {
                 />
                 <p className="text-sm text-gray-500">
                   I confirm that the information provided is accurate and the
-                  documents are authentic. I understand that providing false
-                  information may result in application rejection.
+                  documents are authentic.
                 </p>
               </div>
-              <button
-                type="submit"
-                className="w-full px-8 py-2 bg-primary-500 text-black rounded-xl font-semibold hover:bg-primary-600 transition-all duration-200 transform hover:scale-102 shadow-sm hover:shadow-md"
-                disabled={loading}
-              >
-                {loading ? (
-                  <span className="flex justify-center items-center gap-2">
-                    <MdAutorenew className="size-6 animate-spin" />
-                    Uploading
-                  </span>
-                ) : (
-                  "Submit ID"
-                )}
-              </button>
+              <div className="flex gap-4">
+                <button
+                  type="reset"
+                  className="flex-1 px-8 py-2 border border-black/50 text-black rounded-xl font-semibold hover:bg-primary-600 transition-all duration-200 transform hover:scale-101 hover:-translate-y-0.5 shadow-sm hover:shadow-md"
+                  onClick={() => {
+                    setFrontFile(null);
+                    setBackFile(null);
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 px-8 py-2 bg-primary active:scale-99 text-white rounded-xl font-semibold hover:bg-primary-600 transition-all duration-200 transform hover:scale-101 hover:-translate-y-0.5 shadow-sm hover:shadow-md"
+                  disabled={loading}
+                >
+                  {loading ? (
+                    <span className="flex justify-center items-center gap-2">
+                      <MdAutorenew className="size-6 animate-spin text-white" />
+                      Uploading
+                    </span>
+                  ) : (
+                    "Submit ID"
+                  )}
+                </button>
+              </div>
               {message && <p className={`text-sm ${statusColor}`}>{message}</p>}
             </form>
           </div>
