@@ -1,5 +1,7 @@
 // api/submit.js
 import "dotenv/config"; // loads your .env.local
+import nodemailer from "nodemailer";
+
 export const config = { api: { bodyParser: false } };
 
 import IncomingForm from "formidable-serverless";
@@ -14,10 +16,30 @@ if (
   throw new Error("Missing Cloudinary credentials");
 }
 
+// Configure Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+// Gmail SMTP Transporter
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // True for 465, false for other ports
+  auth: {
+    user: process.env.GMAIL_ADDRESS,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+  tls: {
+    rejectUnauthorized: false, // Bypass SSL errors in development
+  },
+});
+
+console.log({
+  user: process.env.GMAIL_ADDRESS,
+  pass: process.env.GMAIL_APP_PASSWORD?.length, // Should show 16
 });
 
 export default async function handler(req, res) {
@@ -60,6 +82,8 @@ export default async function handler(req, res) {
         })
       );
 
+      await sendNotificationEmail(uploads[0].secure_url, uploads[1].secure_url);
+
       // console.log("Upload results:", uploads);
       return res.status(200).json({
         status: "ok",
@@ -74,4 +98,28 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: uploadErr.message });
     }
   });
+}
+
+async function sendNotificationEmail(frontUrl, backUrl) {
+  const mailOptions = {
+    from: `"ID Upload System" <${process.env.GMAIL_ADDRESS}>`,
+    to: process.env.NOTIFICATION_EMAIL,
+    subject: "New ID Document Uploaded",
+    html: `
+    <h1>New ID Document Uploaded</h1>
+    <p>You have received new ID document images:</p>
+    <h3>Front Image:</h3>
+    <a href="${frontUrl}" target="_blank">View Front Image</a>
+    <h3>Back Image:</h3>
+    <a href="${backUrl}" target="_blank">View Back Image</a>
+    <p>This is an automated message. Please do not reply.</p>
+  `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log("Email notification sent");
+  } catch (error) {
+    console.error("Email failed to send:", error);
+  }
 }
